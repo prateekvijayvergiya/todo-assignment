@@ -12,6 +12,7 @@ import EditTodo from './editTodo'
 import DeleteTodo from './deleteTodo'
 import { useDispatch } from 'react-redux'
 import { changeTodoCurrentState } from '../../../../app/store/reducers/todos'
+import ShowTodoDialog from './showTodo'
 
 const TodoListRow = ({ todo }) => {
   const dispatch = useDispatch()
@@ -20,33 +21,46 @@ const TodoListRow = ({ todo }) => {
   const classes = useStyles({ currentState })
   const { value: isEditDialogOpen, setTrue: openEditDialog, setFalse: closeEditDialog } = useBooleanValue(false)
   const { value: isDeleteDialogOpen, setTrue: openDeleteDialog, setFalse: closeDeletetDialog } = useBooleanValue(false)
+  const { value: iShowDialogOpen, setTrue: openShowDialog, setFalse: closeShowDialog } = useBooleanValue(false)
 
-  const handleStateClick = () => {
+  const handleStateClick = (event) => {
+    event.stopPropagation()
     dispatch(changeTodoCurrentState(todo))
   }
+
+  const handleDeleteIconClick = (event) => {
+    event.stopPropagation()
+    openDeleteDialog()
+  }
+
+  const handleEditIconClick = (event) => {
+    event.stopPropagation()
+    openEditDialog()
+  }
   return (
-    <Fragment>
-      <TableRow className={classes.container}>
-        <TableCell>{title}</TableCell>
+    <Fragment >
+      <TableRow  className={classes.container} onClick={openShowDialog}>
+        <TableCell >{title}</TableCell>
         <TableCell>{priority}</TableCell>
         <TableCell>{date}</TableCell>
         <TableCell>{dueDate}</TableCell>
         <TableCell>
-          <IconButton onClick={openEditDialog}>
+          <IconButton onClick={(event) => handleEditIconClick(event)}>
             <EditIcon color={'primary'} />
           </IconButton>
           <Button
-            onClick={handleStateClick}
+            onClick={(event) => handleStateClick(event)}
             variant={'contained'}
             className={classes.stateColor}>{currentState === 'pending' ? 'Done' : 'Re-Open'}
           </Button>
-          <IconButton onClick={openDeleteDialog}>
+          <IconButton onClick={(event) => handleDeleteIconClick(event)}>
             <DeleteIcon className={classes.deleteIcon} />
           </IconButton>
         </TableCell>
       </TableRow>
       <EditTodo {...{ todo, isEditDialogOpen, closeEditDialog }} />
       <DeleteTodo {...{ id, isDeleteDialogOpen, closeDeletetDialog }} />
+      <ShowTodoDialog {...{ todo, iShowDialogOpen, closeShowDialog }} />
     </Fragment>
   )
 }
@@ -59,7 +73,11 @@ const useStyles = makeStyles(() => ({
     backgroundColor: ({ currentState }) => currentState === 'pending' ? 'green' : 'aqua',
   },
   container: {
-    textDecoration: ({currentState}) => currentState === 'pending' ? 'none' : 'line-through'
+    textDecoration: ({ currentState }) => currentState === 'pending' ? 'none' : 'line-through',
+    cursor: 'pointer'
+  },
+  row: {
+
   }
 }))
 

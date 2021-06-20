@@ -23,10 +23,10 @@ const DeleteTodo = ({ id, isDeleteDialogOpen: open, closeDeletetDialog: onClose 
       </DialogContent>
       <DialogActions>
         <Button variant="contained" onClick={onClose}>
-          Cancel
+          NO
         </Button>
         <Button color='secondary' variant="contained" onClick={onDeleteClickHandler}>
-          Delete
+          YES
         </Button>
       </DialogActions>
     </Dialog>

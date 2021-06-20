@@ -4,16 +4,16 @@ import { v4 as uuidv4 } from 'uuid'
 const initialState = {
   tasks: [{
     id: '1',
-    title: 'Hola',
-    description: 'ds',
+    title: 'Going to buy vegetables',
+    description: 'Hello',
     dueDate: '2021-06-17',
     priority: 'none',
     currentState: 'completed'
   },
   {
     id: '2',
-    title: 'Baba Bunny',
-    description: 'ds',
+    title: 'Doing out for groceries',
+    description: 'Hello',
     dueDate: '2021-06-17',
     priority: 'none',
     currentState: 'pending'
